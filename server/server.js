@@ -4,10 +4,15 @@ const express = require('express'),
 const web3 = require('web3');
 const mine = require('./mine');
 const db = require('./auth/db');
-var passport = require('passport');
 
-require('./auth/pass');
-var authApi = require('./auth/authroute');
+const jwt = require('jsonwebtoken');
+
+const expressJwt = require('express-jwt');
+const authenticate = expressJwt({ secret: 'MY_SECRET' });
+
+
+var passport = require('./auth/auth');
+var authjwt = require('./auth/authjwt');
 
 ipfs.connect();
 mine.connectweb3();
@@ -20,6 +25,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(bodyParser.json());
 
+app.use(passport.initialize());
+
 app.use(function(req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', "*");
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -28,11 +35,40 @@ app.use(function(req, res, next) {
     next();
 });
 
-app.use(passport.initialize());
+app.post('/login', passport.authenticate(
+        'local', { session: false }),
+    authjwt.serialize,
+    authjwt.generateToken,
+    authjwt.respond);
 
-app.use('/auth', authApi);
+app.post('/register', (req, res) => {
 
-app.post('/add', function(req, res) {
+    var user = new db();
+
+    user.name = req.body.name;
+    user.phone = req.body.phone;
+    user.email = req.body.email;
+
+    user.setPassword(req.body.password);
+
+    user.save((err, usr) => {
+        if (err) console.log("error " + err);
+
+        console.log(usr);
+
+        req.token = jwt.sign({
+            id: usr.email,
+        }, 'MY_SECRET', {
+            expiresIn: "1h"
+        });
+
+        res.send(req.token);
+    })
+
+});
+
+app.post('/add', authenticate, function(req, res) {
+
     var productdata = req.body;
 
     var seller = productdata.seller;
@@ -59,12 +95,19 @@ app.post('/add', function(req, res) {
     });
 });
 
-app.get('/get', function(req, res) {
+app.get('/get', authenticate, function(req, res) {
+
     hash = mine.getData("getproduct", []);
     console.log("get hora  " + hash);
     ipfs.getFile(hash, (e, obj) => {
         res.send(JSON.parse(obj));
     });
+});
+
+app.use(function(err, req, res, next) {
+    if (err.name === 'UnauthorizedError') {
+        res.status(401).send('invalid token...');
+    }
 });
 
 app.listen(3000, function() {

@@ -1,5 +1,23 @@
+var User = require('./db');
 var passport = require('passport');
-var config = require('./authid.js');
-var FacebookStrategy = require('passport-facebook').Strategy;
-var GoogleStrategy = require('passport-google-oauth2').Strategy;
 var LocalStrategy = require('passport-local').Strategy;
+
+passport.use(new LocalStrategy({
+        usernameField: 'email'
+    },
+    (username, password, done) => {
+        User.findOne({ email: username }, function(err, user) {
+            if (err) { return done(err); }
+            if (!user) {
+                return done(null, false, { message: 'Incorrect username.' });
+            }
+            if (!user.validPassword(password)) {
+                return done(null, false, { message: 'Incorrect password.' });
+            }
+            return done(null, user);
+        });
+    }
+));
+
+
+module.exports = passport;
