@@ -55,6 +55,7 @@ app.post('/register', (req, res) => {
         if (err) console.log("error " + err);
 
         console.log(usr);
+        req.usr = usr;
 
         req.token = jwt.sign({
             id: usr.email,
@@ -62,7 +63,11 @@ app.post('/register', (req, res) => {
             expiresIn: "1h"
         });
 
-        res.send(req.token);
+        res.status(200).json({
+            user: req.usr,
+            token: req.token
+        });
+        //res.send(req.token);
     })
 
 });

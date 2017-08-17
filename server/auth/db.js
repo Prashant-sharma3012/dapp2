@@ -4,7 +4,7 @@ var jwt = require('jsonwebtoken');
 
 var Schema = mongoose.Schema;
 
-mongoose.connect('mongodb://localhost:27017/loginDB');
+mongoose.connect('mongodb://localhost:27017/loginTst');
 
 var db = mongoose.connection;
 

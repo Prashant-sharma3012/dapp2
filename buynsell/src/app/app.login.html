@@ -1,12 +1,21 @@
 <div>
     <span>Buy.N.Sell</span>
+    <button md-button id="register" (click)='register()'>Register</button>
 </div>
-<div>
-    <md-input-container class="example-full-width"><input mdInput placeholder="User ID"></md-input-container>
+<div class="login">
+    <div>
+        <md-input-container class="example-full-width"><input mdInput placeholder="User ID" [(ngModel)]='email'></md-input-container>
+    </div>
+    <div>
+        <md-input-container class="example-full-width"><input mdInput placeholder="Password" [(ngModel)]='password'></md-input-container>
+    </div>
+    <div>
+        <button md-button (keyup.enter)='login()' (click)='login()'>Login</button>
+    </div>
 </div>
-<div>
-    <md-input-container class="example-full-width"><input mdInput placeholder="Password"></md-input-container>
-</div>
-<div>
-    <button md-button>Login</button>
-</div>
+
+<vg-player (onPlayerReady)="onPlayerReady($event)">
+    <video [vgMedia]="media" #media id="singleVideo" preload="auto">
+         <source src="{{videosrc}}" type="video/mp4"> 
+    </video>
+</vg-player>

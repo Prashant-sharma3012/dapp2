@@ -1,27 +1,27 @@
 <div>
     <md-input-container class="example-full-width"><input mdInput placeholder="Search"></md-input-container>
-    <button md-button>Get</button>
+    <button md-button><md-icon>youtube_searched_for</md-icon></button>
 </div>
-<div class="row">
-    <div>
-        <div class="col-sm-6 col-md-4">
-            <md-card class="example-card">
-                <md-card-header>
-                    <div md-card-avatar class="example-header-image"></div>
-                    <md-card-title>Shiba Inu</md-card-title>
-                    <md-card-subtitle>Dog Breed</md-card-subtitle>
-                </md-card-header>
-                <img md-card-image src="assets/img/examples/shiba2.jpg">
-                <md-card-content>
-                    <p>
-                        The Shiba Inu is the smallest of the six original and distinct spitz breeds of dog from Japan. A small, agile dog that copes very well with mountainous terrain, the Shiba Inu was originally bred for hunting.
-                    </p>
-                </md-card-content>
-                <md-card-actions>
-                    <button md-button>LIKE</button>
-                    <button md-button>SHARE</button>
-                </md-card-actions>
-            </md-card>
-        </div>
-    </div>
-</div>
+
+<md-grid-list cols="4" rowHeight="100px">
+    <md-grid-tile *ngFor="let tile of tiles" [colspan]="tile.cols" [rowspan]="tile.rows" [style.background]="tile.color">
+        {{tile.text}}
+        <md-card class="example-card">
+            <md-card-header>
+                <div md-card-avatar class="example-header-image"></div>
+                <md-card-title>{{tile.product}}</md-card-title>
+                <md-card-subtitle>{{tile.desc}}</md-card-subtitle>
+            </md-card-header>
+            <!-- <img md-card-image src="assets/img/examples/shiba2.jpg"> -->
+            <md-card-actions>
+                <button md-button>Details</button>
+                <button md-button>Add to cart</button>
+            </md-card-actions>
+        </md-card>
+    </md-grid-tile>
+</md-grid-list>
+<vg-player (onPlayerReady)="onPlayerReady($event) ">
+    <video [vgMedia]="media " #media id="singleVideo " preload="auto ">
+         <source src="{{videosrc}} " type="video/mp4 "> 
+    </video>
+</vg-player>

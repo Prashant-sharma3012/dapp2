@@ -1,26 +1,30 @@
 <div>
-    <span>Buy.N.Sell</span>
-    <button md-icon-button [mdMenuTriggerFor]="menu">
-        <md-icon>more_vert</md-icon>
+    <span class="company">Buy.N.Sell</span>
+    <button md-icon-button [mdMenuTriggerFor]="menu" class="menu1">
+        <md-icon>account_box</md-icon>
     </button>
     <md-menu #menu="mdMenu">
         <button md-menu-item>
-    <md-icon>dialpad</md-icon>
-    <span>Redial</span>
+    <md-icon>dashboard</md-icon>
+    <span>My Ads</span>
     </button>
-        <button md-menu-item disabled>
-    <md-icon>voicemail</md-icon>
-    <span>Check voicemail</span>
+        <button md-menu-item>
+    <md-icon>local_grocery_store</md-icon>
+    <span>My Cart</span>
   </button>
         <button md-menu-item>
-    <md-icon>notifications_off</md-icon>
-    <span>Disable alerts</span>
+    <md-icon>flight_takeoff</md-icon>
+    <span>Logoff</span>
   </button>
     </md-menu>
 </div>
-<div>
-    <button md-button>Buy</button>
+<div class="select">
+    <button md-button class="opt" (click)="buy()">Buy</button>
+    <button md-button class="opt" (click)="sell()">Sell</button>
 </div>
-<div>
-    <button md-button>Sell</button>
-</div>
+
+<vg-player (onPlayerReady)="onPlayerReady($event) ">
+    <video [vgMedia]="media " #media id="singleVideo " preload="auto ">
+         <source src="{{videosrc}} " type="video/mp4 "> 
+    </video>
+</vg-player>

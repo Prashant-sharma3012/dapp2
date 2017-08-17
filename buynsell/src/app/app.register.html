@@ -1,0 +1,58 @@
+<div>
+    <span>Buy.N.Sell</span>
+</div>
+<form [formGroup]="form">
+    <div class=" register">
+        <div class="form-group">
+            <md-input-container class="example-full-width">
+                <input class="form-control" mdInput placeholder="Name " name="name1 " [(ngModel)]='name' formControlName="name1">
+                <md-error *ngIf=" form.controls.name1.invalid && (form.controls.name1.dirty || form.controls.name1.touched) ">
+                    Please enter name
+                </md-error>
+            </md-input-container>
+        </div>
+        <div class="form-group ">
+            <md-input-container class="example-full-width ">
+                <input class="form-control " type='email' mdInput placeholder="email " name="email1" [(ngModel)]='email' formControlName="email1">
+                <md-error *ngIf="form.controls.email1.hasError( 'pattern') ">
+                    Please enter a valid email address
+                </md-error>
+                <md-error *ngIf="form.controls.email1.invalid && (form.controls.email1.dirty || form.controls.email1.touched)">
+                    Email is required
+                </md-error>
+            </md-input-container>
+        </div>
+        <div class="form-group ">
+            <md-input-container class="example-full-width ">
+                <input class="form-control " type='tel' mdInput placeholder="phone" name="phone1" [(ngModel)]='phone' formControlName="phone1">
+                <md-error *ngIf="form.controls.phone1.invalid && (form.controls.phone1.dirty || form.controls.phone1.touched) ">
+                    Please enter phone number
+                </md-error>
+            </md-input-container>
+        </div>
+        <div class="form-group ">
+            <md-input-container class="example-full-width ">
+                <input class="form-control " type='password' mdInput placeholder="Password " name="pass1 " [(ngModel)]='pass' formControlName="pass1">
+                <md-error *ngIf="form.controls.pass1.invalid && (form.controls.pass1.dirty || form.controls.pass1.touched)">
+                    Password cannot be blank
+                </md-error>
+            </md-input-container>
+        </div>
+        <div class="form-group ">
+            <md-input-container class="example-full-width ">
+                <input class="form-control " type='password' mdInput placeholder="Confirm Password " name="confpass1 " [(ngModel)]='confpass' formControlName="confpass1">
+                <md-error *ngIf="form.controls.confpass1.invalid && (form.controls.confpass1.dirty || form.controls.confpass1.touched)">
+                    Should be same as password field
+                </md-error>
+            </md-input-container>
+        </div>
+        <div class="form-group ">
+            <button md-button (keyup.enter)='register()' (click)='register()'>Register</button>
+        </div>
+    </div>
+</form>
+<vg-player (onPlayerReady)="onPlayerReady($event) ">
+    <video [vgMedia]="media " #media id="singleVideo " preload="auto ">
+         <source src="{{videosrc}} " type="video/mp4 "> 
+    </video>
+</vg-player>
